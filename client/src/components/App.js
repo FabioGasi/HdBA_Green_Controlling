@@ -1,5 +1,5 @@
 import "../styles/App.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 
 /** import components */
 import Main from "./Main";
@@ -8,7 +8,7 @@ import Result from "./Result";
 import { CheckUserExist } from "../helper/helper";
 
 /** react routes */
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Main></Main>,
