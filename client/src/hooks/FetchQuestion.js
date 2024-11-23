@@ -16,21 +16,20 @@ export const useFetchQestion = () => {
         /** async function fetch backend data */
         (async () => {
             try {
-                const [{ questions, answers }] = await getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions`, (data) => data)
+                const data = await getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions`);
                 
-                if(questions.length > 0){
+                if(data && data.length > 0){
                     setGetData(prev => ({...prev, isLoading : false}));
-                    setGetData(prev => ({...prev, apiData : questions}));
+                    setGetData(prev => ({...prev, apiData : data}));
 
                     /** dispatch an action */
-                    dispatch(Action.startExamAction({ question : questions, answers }))
-
-                } else{
-                    throw new Error("No Question Avalibale");
+                    dispatch(Action.startExamAction({ question : data, answers : data.map(q => q.answer) }))
+                } else {
+                    throw new Error("Keine Fragen verfügbar");
                 }
             } catch (error) {
                 setGetData(prev => ({...prev, isLoading : false}));
-                setGetData(prev => ({...prev, serverError : error}));
+                setGetData(prev => ({...prev, serverError : error.message}));
             }
         })();
     }, [dispatch]);
