@@ -42,8 +42,14 @@ export function CheckUserExist({ children }) {
 
 /** get server data */
 export async function getServerData(url, callback) {
-  const data = await (await axios.get(url))?.data;
-  return callback ? callback(data) : data;
+  try {
+    const response = await axios.get(url);
+    const data = response.data;
+    return callback ? callback(data) : data;
+  } catch (error) {
+    console.error("API Fehler:", error);
+    throw new Error("Fehler beim Laden der Daten");
+  }
 }
 
 /** post server data */
